@@ -11,6 +11,8 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static org.junit.Assert.fail;
+
 public class UsuarioDAO implements UsuarioInterface {
     // CRUD (CREATE - READ - UPDATE - DELETE)
     Scanner teclado = new Scanner(System.in);
@@ -97,7 +99,7 @@ public class UsuarioDAO implements UsuarioInterface {
                         sdf.format(resultSet.getDate("data_de_cadastro"))
                 );
 
-             }
+            }
 
             new Thread();
             Thread.sleep(2000);
@@ -124,6 +126,11 @@ public class UsuarioDAO implements UsuarioInterface {
 
         System.out.print("Qual usuário(id) deseja buscar:");
         int id = Integer.parseInt(teclado.next());
+
+        while(idNotExists(id)) {
+            System.out.print("Registro inexistente\nQual registro(id) voce deseja atualizar: ");
+            id = Integer.parseInt(teclado.next());
+        }
 
         String sqlSelect = "SELECT * FROM usuario WHERE id = " + id + ";";
         Connection connection = null;
@@ -167,10 +174,19 @@ public class UsuarioDAO implements UsuarioInterface {
         System.out.print("Qual registro(id) voce deseja atualizar: ");
         int id = Integer.parseInt(teclado.next());
 
+        while(idNotExists(id)) {
+            System.out.print("Registro inexistente\nQual registro(id) voce deseja atualizar: ");
+            id = Integer.parseInt(teclado.next());
+        }
+
         System.out.print("Qual o novo nome: ");
         usuario.setNome(teclado.next());
         System.out.print("Qual o novo e-mail: ");
         usuario.setEmail(teclado.next());
+        while (usuario.getEmail().indexOf ("@") < 1) {
+            System.out.print("E-mail inválido!\n Entre com um e-mail válido: ");
+            usuario.setEmail(teclado.next());
+        }
 
         String sqlUpdate = ("UPDATE usuario SET nome= '" + usuario.getNome() + "', email = '" + usuario.getEmail() + "' WHERE id =  " + id + ";");
 
@@ -207,6 +223,11 @@ public class UsuarioDAO implements UsuarioInterface {
         System.out.print("Qual usuário deseja excluir(id)");
         int id = Integer.parseInt(teclado.next());
 
+        while (idNotExists(id)) {
+            System.out.print("Registro inexistente\nQual registro(id) voce deseja atualizar: ");
+            id = Integer.parseInt(teclado.next());
+        }
+
         String sqlUpdate = ("DELETE FROM usuario WHERE id = '" + id + "';");
 
         Connection connection = null;
@@ -234,4 +255,40 @@ public class UsuarioDAO implements UsuarioInterface {
         }
     }
 
+    private static boolean idNotExists(int id) {
+        String sqlMaxID = "SELECT MAX(id) AS ULTIMOID FROM usuario";
+        ResultSet resultMaxId;
+        boolean retorno = false;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = ConnectionFactory.createConnectionToMySQL();
+            preparedStatement = connection.prepareStatement(sqlMaxID);
+            resultMaxId = preparedStatement.executeQuery();
+            if (resultMaxId.next()) {
+                int ultimo = resultMaxId.getInt("ULTIMOID");
+                if (id > ultimo) {
+                    retorno = true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return retorno;
+    }
+
+
 }
+

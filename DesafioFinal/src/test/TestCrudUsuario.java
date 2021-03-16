@@ -84,7 +84,7 @@ public class TestCrudUsuario {
         }
     }
 
-    //TODO: Criar este método na classe UsuarioDAO
+    //
     public boolean idNotExist() throws SQLException {
         String sqlMaxID = "SELECT MAX(id) AS ULTIMOID FROM usuario";
         ResultSet resultMaxId;
