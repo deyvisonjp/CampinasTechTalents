@@ -25,9 +25,12 @@ public class Main {
                    usuarioDAO.getUsuarioId();
                    break;
                case "4":
-                   usuarioDAO.update();
+                   usuarioDAO.getUsuarioNome();
                    break;
                case "5":
+                   usuarioDAO.update();
+                   break;
+               case "6":
                    usuarioDAO.delete();
                    break;
                default:
@@ -46,8 +49,9 @@ public class Main {
         System.out.println("1. Cadastrar novo usuário");
         System.out.println("2. Listar usuários");
         System.out.println("3. Buscar usuário por id");
-        System.out.println("4. Alterar um cadastro");
-        System.out.println("5. Excluir um cadastro");
+        System.out.println("4. Buscar usuário por nome");
+        System.out.println("5. Alterar um cadastro");
+        System.out.println("6. Excluir um cadastro");
         System.out.println("X. Sair do Sistema");
 
         String opcaoEscolhida = teclado.nextLine().toUpperCase();

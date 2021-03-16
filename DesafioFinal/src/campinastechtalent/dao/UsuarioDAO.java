@@ -167,6 +167,52 @@ public class UsuarioDAO implements UsuarioInterface {
         }
     }
 
+    //READ - NOME
+    public void getUsuarioNome() {
+
+        System.out.print("Qual usuário você deseja buscar:");
+        String nome = (teclado.nextLine());
+
+        while(nomeNotExist(nome)) {
+            System.out.print("Registro inexistente\nQual nome você deseja pesquisar: ");
+            nome = (teclado.next());
+        }
+
+        String sqlSelect = "SELECT * FROM usuario WHERE nome LIKE '" + nome + "%';";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet;
+
+        try {
+            connection = ConnectionFactory.createConnectionToMySQL();
+            preparedStatement = connection.prepareStatement(sqlSelect);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                System.out.printf("%d: %10s - %15s - %10s\n",
+                        resultSet.getInt("id"),
+                        resultSet.getString("nome"),
+                        resultSet.getString("email"),
+                        sdf.format(resultSet.getDate("data_de_cadastro"))
+                );
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Override
     //UPDATE
     public void update() {
@@ -271,6 +317,38 @@ public class UsuarioDAO implements UsuarioInterface {
                 if (id > ultimo) {
                     retorno = true;
                 }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return retorno;
+    }
+
+    public boolean nomeNotExist(String nome) {
+
+        String sqlPesqNome = "SELECT * FROM usuario WHERE nome LIKE '" + nome + "%';";;
+        ResultSet resultNome;
+        boolean retorno = false;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = ConnectionFactory.createConnectionToMySQL();
+            preparedStatement = connection.prepareStatement(sqlPesqNome);
+            resultNome = preparedStatement.executeQuery();
+            if (!resultNome.next()) {
+                retorno = true;
             }
         } catch (Exception e) {
             e.printStackTrace();

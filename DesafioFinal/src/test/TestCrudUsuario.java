@@ -84,7 +84,6 @@ public class TestCrudUsuario {
         }
     }
 
-    //
     public boolean idNotExist() throws SQLException {
         String sqlMaxID = "SELECT MAX(id) AS ULTIMOID FROM usuario";
         ResultSet resultMaxId;
@@ -99,6 +98,21 @@ public class TestCrudUsuario {
                 retorno = true;
             }
         }
+        return retorno;
+    }
+
+    public boolean nomeNotExist() throws SQLException {
+
+        String sqlPesqNome = "SELECT * FROM usuario WHERE nome LIKE '" + usuario.getNome() + "%';";;
+        ResultSet resultNome;
+        boolean retorno = false;
+
+        preparedStatement = connection.prepareStatement(sqlPesqNome);
+        resultNome = preparedStatement.executeQuery();
+        if (!resultNome.next()) {
+                fail("Nome não encontrado na base de dados");
+                retorno = true;
+            }
         return retorno;
     }
 
@@ -118,6 +132,24 @@ public class TestCrudUsuario {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void listUsersNome() {
+        String name ="Xuxa";
+        String sqlSelect = "SELECT * FROM usuario WHERE nome LIKE '" + name + "%';";
+        ResultSet resultSet;
+
+        try {
+            preparedStatement = connection.prepareStatement(sqlSelect);
+            resultSet = preparedStatement.executeQuery();
+            if (!nomeNotExist()) {
+                assertFalse("Usuário(a) [" + name + "] não encontrado(a)!", !resultSet.next());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Test
     public void updateId() {
