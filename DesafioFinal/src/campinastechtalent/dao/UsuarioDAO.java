@@ -8,7 +8,6 @@ import campinastechtalent.Interfaces.UsuarioInterface;
 import campinastechtalent.factory.ConnectionFactory;
 
 import java.sql.*;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -30,35 +29,34 @@ public class UsuarioDAO implements UsuarioInterface {
             String sqlInsert = "INSERT INTO usuario (nome, email, senha, data_de_cadastro) " +
                     "VALUES (?, ?, ?, ?)";
 
-            preparedStatement = (PreparedStatement) connection.prepareStatement(sqlInsert);
+            preparedStatement = connection.prepareStatement(sqlInsert);
 
             System.out.print("Qual o novo nome: ");
-            usuario.setNome(teclado.next());
+            usuario.setNome(teclado.nextLine());
+
             System.out.print("Qual o novo e-mail: ");
             usuario.setEmail(teclado.next());
+
+            while (usuario.getEmail().indexOf ("@") < 1) {
+                System.out.print("E-mail inválido!\n Entre com um e-mail válido: ");
+                usuario.setEmail(teclado.next());
+            }
+
             System.out.print("Crie uma senha: ");
             usuario.setSenha(teclado.next());
 
-            /*
-            Calendar dataCriacao = Calendar.getInstance();
-            String data = dataCriacao.get(Calendar.YEAR) + "-"
-                    + (dataCriacao.get(Calendar.MONTH) + 1)
-                    + "-" + dataCriacao.get(Calendar.DAY_OF_MONTH);
-            */
-
             Calendar calendar = Calendar.getInstance();
             java.sql.Date getData = new java.sql.Date(calendar.getTime().getTime());
-
 
             preparedStatement.setString(1, usuario.getNome());
             preparedStatement.setString(2, usuario.getEmail());
             preparedStatement.setString(3, usuario.getSenha());
             preparedStatement.setDate(4, getData);
-            //preparedStatement.setString(4, String.valueOf(data));
 
             preparedStatement.executeUpdate();
 
             System.out.println("Usuário(a) " + usuario.getNome() + " criado(a) com sucesso");
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -73,23 +71,20 @@ public class UsuarioDAO implements UsuarioInterface {
                 e.printStackTrace();
             }
         }
-
     }
 
     @Override
     //READ - LIST USUARIOS
     public void getUsuarios() {
 
-        //List<Usuario> usuarios = new ArrayList<Usuario>();
-
         String sqlSelect = "SELECT * FROM usuario;";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null; // Resultado da busca no banco
+        ResultSet resultSet; // Resultado da busca no banco
 
         try {
             connection = ConnectionFactory.createConnectionToMySQL();
-            preparedStatement = (PreparedStatement) connection.prepareStatement(sqlSelect);
+            preparedStatement = connection.prepareStatement(sqlSelect);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -102,17 +97,10 @@ public class UsuarioDAO implements UsuarioInterface {
                         sdf.format(resultSet.getDate("data_de_cadastro"))
                 );
 
-                /*
-                usuario.setId(resultSet.getInt("id"));
-                usuario.setNome(resultSet.getString("nome"));
-                usuario.setEmail(resultSet.getString("email"));
-                usuario.setDataDeCadastro(resultSet.getString("data_de_cadastro"));
-                */
+             }
 
-
-                //usuarios.add(usuario);
-
-            }
+            new Thread();
+            Thread.sleep(2000);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -128,9 +116,6 @@ public class UsuarioDAO implements UsuarioInterface {
                 e.printStackTrace();
             }
         }
-
-        //return usuarios;
-
     }
 
     @Override
@@ -143,11 +128,11 @@ public class UsuarioDAO implements UsuarioInterface {
         String sqlSelect = "SELECT * FROM usuario WHERE id = " + id + ";";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+        ResultSet resultSet;
 
         try {
             connection = ConnectionFactory.createConnectionToMySQL();
-            preparedStatement = (PreparedStatement) connection.prepareStatement(sqlSelect);
+            preparedStatement = connection.prepareStatement(sqlSelect);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -194,7 +179,7 @@ public class UsuarioDAO implements UsuarioInterface {
 
         try {
             connection = ConnectionFactory.createConnectionToMySQL();
-            preparedStatement = (PreparedStatement) connection.prepareStatement(sqlUpdate);
+            preparedStatement = connection.prepareStatement(sqlUpdate);
             preparedStatement.executeUpdate();
 
             System.out.println("Usuário [" + id + "] atualizado com sucesso!");
@@ -229,7 +214,7 @@ public class UsuarioDAO implements UsuarioInterface {
 
         try {
             connection = ConnectionFactory.createConnectionToMySQL();
-            preparedStatement = (PreparedStatement) connection.prepareStatement(sqlUpdate);
+            preparedStatement = connection.prepareStatement(sqlUpdate);
             System.out.println("Usuário [" + id + "] deletado com sucesso!");
             preparedStatement.executeUpdate();
 

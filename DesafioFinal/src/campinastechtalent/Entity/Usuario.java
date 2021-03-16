@@ -12,13 +12,6 @@ public class Usuario {
 
     public Usuario() {}
 
-    public Usuario(int id, String nome, String email, String senha, Calendar dataDeCadastro) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.dataDeCadastro = dataDeCadastro;
-    }
 
     // Getters e Setters
     public int getId() {
@@ -57,7 +50,4 @@ public class Usuario {
         return dataDeCadastro;
     }
 
-    public void setDataDeCadastro(Calendar dataDeCadastro) {
-        this.dataDeCadastro = dataDeCadastro;
-    }
 }
