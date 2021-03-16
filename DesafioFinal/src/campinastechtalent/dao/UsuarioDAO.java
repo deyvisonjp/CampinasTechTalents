@@ -124,7 +124,7 @@ public class UsuarioDAO implements UsuarioInterface {
     //READ - FOR ID
     public void getUsuarioId() {
 
-        System.out.print("Qual usuário(id) deseja buscar:");
+        System.out.print("Qual usuário(id) deseja buscar: ");
         int id = Integer.parseInt(teclado.next());
 
         while(idNotExists(id)) {
@@ -266,11 +266,11 @@ public class UsuarioDAO implements UsuarioInterface {
     // DELETE
     public void delete() {
 
-        System.out.print("Qual usuário deseja excluir(id)");
+        System.out.print("Qual usuário deseja excluir(id): ");
         int id = Integer.parseInt(teclado.next());
 
         while (idNotExists(id)) {
-            System.out.print("Registro inexistente\nQual registro(id) voce deseja atualizar: ");
+            System.out.print("Registro inexistente\nQual registro(id) voce deseja excluir: ");
             id = Integer.parseInt(teclado.next());
         }
 
