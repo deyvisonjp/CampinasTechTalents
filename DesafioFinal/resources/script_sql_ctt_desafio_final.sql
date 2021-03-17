@@ -7,9 +7,3 @@ CREATE TABLE ctt_desafio_final.usuario (
   senha VARCHAR(15) NOT NULL,
   data_de_cadastro DATE NOT NULL,
   PRIMARY KEY (`id`));
-
-SELECT * FROM ctt_desafio_final.usuario;
-
-SELECT * FROM usuario WHERE id = 1;
-
-UPDATE usuario SET nome= 'Fulaninho', email = 'fulaninho@email.com' WHERE id = 3;
