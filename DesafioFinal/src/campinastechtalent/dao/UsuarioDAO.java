@@ -11,8 +11,6 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static org.junit.Assert.fail;
-
 public class UsuarioDAO implements UsuarioInterface {
     // CRUD (CREATE - READ - UPDATE - DELETE)
     Scanner teclado = new Scanner(System.in);
@@ -33,8 +31,9 @@ public class UsuarioDAO implements UsuarioInterface {
 
             preparedStatement = connection.prepareStatement(sqlInsert);
 
+
             System.out.print("Qual o novo nome: ");
-            usuario.setNome(teclado.nextLine());
+            usuario.setNome(teclado.nextLine());teclado.nextLine();
 
             System.out.print("Qual o novo e-mail: ");
             usuario.setEmail(teclado.next());

@@ -2,13 +2,12 @@ package campinastechtalent;
 
 import campinastechtalent.dao.UsuarioDAO;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
-
     static UsuarioDAO usuarioDAO = new UsuarioDAO();
+
+    static Scanner teclado = new Scanner(System.in);
 
     public static void main(String[] args) {
        String opcaoEscolhida = escolhaMenu();
@@ -39,11 +38,11 @@ public class Main {
            }
            opcaoEscolhida = escolhaMenu();
        }
+        System.out.println("Obrigado por utilizar nossos serviços.");
+        teclado.nextLine();
     }
 
     private static String escolhaMenu() {
-        Scanner teclado = new Scanner(System.in);
-
         System.out.println();
         System.out.println("=========== Desafio Final CTT =========== \n" +
                 "Registro de usuários - Escolha uma opção:");
@@ -55,15 +54,10 @@ public class Main {
         System.out.println("6. Excluir um cadastro");
         System.out.println("X. Sair do Sistema");
 
-        String opcaoEscolhida = teclado.nextLine().toUpperCase();
-        System.out.println();
+       String opcaoEscolhida = teclado.nextLine().toUpperCase();
+       System.out.println();
 
-        // TODO
-        //if(Integer.parseInt(opcaoEscolhida) > 5 || !opcaoEscolhida.equals("X")) {
-        //    System.out.println("Opção Inválida - Selecione uma opção válida!");
-        //}
-
-        return opcaoEscolhida;
+       return opcaoEscolhida;
 
     }
 
