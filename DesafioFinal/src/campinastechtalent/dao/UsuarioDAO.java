@@ -33,7 +33,7 @@ public class UsuarioDAO implements UsuarioInterface {
 
 
             System.out.print("Qual o novo nome: ");
-            usuario.setNome(teclado.nextLine());teclado.nextLine();
+            usuario.setNome(teclado.nextLine());
 
             System.out.print("Qual o novo e-mail: ");
             usuario.setEmail(teclado.next());
@@ -53,7 +53,6 @@ public class UsuarioDAO implements UsuarioInterface {
             preparedStatement.setString(2, usuario.getEmail());
             preparedStatement.setString(3, usuario.getSenha());
             preparedStatement.setDate(4, getData);
-
 
             if (!emailJaExistente(usuario.getEmail())) {
                 preparedStatement.executeUpdate();
