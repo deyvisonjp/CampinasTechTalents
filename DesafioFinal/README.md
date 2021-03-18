@@ -1,6 +1,6 @@
 # CTT - Assertiva - Desafio Final
 
-## CRUD completo com MySQL e testes Junit
+## JAVA - CRUD completo com MySQL e testes Junit
 
 ## Sobre o projeto
 Projeto criado durante o curso Java, promovido pelo projeto Campinas Tech Talents juntamente com a empresa Assertiva.
