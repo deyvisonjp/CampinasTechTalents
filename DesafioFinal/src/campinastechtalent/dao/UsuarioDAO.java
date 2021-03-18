@@ -59,9 +59,10 @@ public class UsuarioDAO implements UsuarioInterface {
             if (!emailJaExistente(usuario.getEmail())) {
                 preparedStatement.executeUpdate();
                 System.out.println("Usuário(a) " + usuario.getNome() + " criado(a) com sucesso");
+            } else {
+                System.out.println("Atenção . . . Este e-mail já esta cadastrado!");
             }
 
-            System.out.println("Atenção . . . Este e-mail já esta cadastrado!");
 
         } catch (Exception e) {
             e.printStackTrace();

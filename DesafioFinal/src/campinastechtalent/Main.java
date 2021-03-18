@@ -34,7 +34,8 @@ public class Main {
                    usuarioDAO.delete();
                    break;
                default:
-                   System.out.println(" . . . ");
+                   System.out.println("Opção inválida.");
+                   break;
            }
            opcaoEscolhida = escolhaMenu();
        }
