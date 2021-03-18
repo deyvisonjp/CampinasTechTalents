@@ -34,8 +34,8 @@ public class Main {
                    usuarioDAO.delete();
                    break;
                default:
+                   System.out.println(" . . . ");
            }
-
            opcaoEscolhida = escolhaMenu();
        }
     }

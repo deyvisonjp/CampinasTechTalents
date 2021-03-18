@@ -38,10 +38,25 @@ public class TestCrudUsuario {
         assertTrue("Email Inválido", testeEmail);
     }
 
+    // Verifica se o email já existe para não permitir duplicidade
+    public boolean emailExists(String email) throws SQLException {
+        String sqlVerificaEmail = "SELECT email FROM usuario WHERE email =  '" + email + "';";
+        ResultSet result;
+        var retorno = false;
+
+        preparedStatement = connection.prepareStatement(sqlVerificaEmail);
+        result = preparedStatement.executeQuery();
+        if (result.next()) {
+               retorno = true;
+        }
+        return retorno;
+    }
+
     @Test
     public void testSaveUsers() {
         boolean salvoComSucesso;
         try {
+
             String sqlInsert = "INSERT INTO usuario (nome, email, senha, data_de_cadastro) " +
                     "VALUES (?, ?, ?, ?)";
 
@@ -56,6 +71,10 @@ public class TestCrudUsuario {
             preparedStatement.setDate(4, getData);
 
             preparedStatement.executeUpdate();
+
+            if(emailExists("deyvisoun@email.com")) {
+                fail("Usuário já esta cadastrado no sistema!");
+            }
 
             System.out.println("Usuário(a) " + usuario.getNome() + " criado(a) com sucesso");
             salvoComSucesso = true;
@@ -84,6 +103,7 @@ public class TestCrudUsuario {
         }
     }
 
+    // Verifica se id já existe
     public boolean idNotExist() throws SQLException {
         String sqlMaxID = "SELECT MAX(id) AS ULTIMOID FROM usuario";
         ResultSet resultMaxId;
@@ -101,6 +121,7 @@ public class TestCrudUsuario {
         return retorno;
     }
 
+    // Verifica se o nome existe não existe
     public boolean nomeNotExist() throws SQLException {
 
         String sqlPesqNome = "SELECT * FROM usuario WHERE nome LIKE '" + usuario.getNome() + "%';";;

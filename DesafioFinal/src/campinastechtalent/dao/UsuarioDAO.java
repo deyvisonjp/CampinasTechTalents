@@ -40,7 +40,7 @@ public class UsuarioDAO implements UsuarioInterface {
             usuario.setEmail(teclado.next());
 
             while (usuario.getEmail().indexOf ("@") < 1) {
-                System.out.print("E-mail inválido!\n Entre com um e-mail válido: ");
+                System.out.print("E-mail inválido!\nEntre com um e-mail válido: ");
                 usuario.setEmail(teclado.next());
             }
 
@@ -55,9 +55,13 @@ public class UsuarioDAO implements UsuarioInterface {
             preparedStatement.setString(3, usuario.getSenha());
             preparedStatement.setDate(4, getData);
 
-            preparedStatement.executeUpdate();
 
-            System.out.println("Usuário(a) " + usuario.getNome() + " criado(a) com sucesso");
+            if (!emailJaExistente(usuario.getEmail())) {
+                preparedStatement.executeUpdate();
+                System.out.println("Usuário(a) " + usuario.getNome() + " criado(a) com sucesso");
+            }
+
+            System.out.println("Atenção . . . Este e-mail já esta cadastrado!");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -367,6 +371,37 @@ public class UsuarioDAO implements UsuarioInterface {
         return retorno;
     }
 
+    public boolean emailJaExistente(String email) {
+
+        String sqlPesqEmail = "SELECT email FROM usuario WHERE email =  '" + email + "';";
+        ResultSet resultEmail;
+        boolean retorno = false;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = ConnectionFactory.createConnectionToMySQL();
+            preparedStatement = connection.prepareStatement(sqlPesqEmail);
+            resultEmail = preparedStatement.executeQuery();
+            if (resultEmail.next()) {
+                    retorno = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return retorno;
+    }
 
 }
 
