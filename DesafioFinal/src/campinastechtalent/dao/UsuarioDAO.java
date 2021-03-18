@@ -127,7 +127,7 @@ public class UsuarioDAO implements UsuarioInterface {
     public void getUsuarioId() {
 
         System.out.print("Qual usuário(id) deseja buscar: ");
-        int id = Integer.parseInt(teclado.next());
+        int id = Integer.parseInt(teclado.nextLine());
 
         while(idNotExists(id)) {
             System.out.print("Registro inexistente\nQual registro(id) voce deseja atualizar: ");
@@ -177,7 +177,7 @@ public class UsuarioDAO implements UsuarioInterface {
 
         while(nomeNotExist(nome)) {
             System.out.print("Registro inexistente\nQual nome você deseja pesquisar: ");
-            nome = (teclado.next());
+            nome = (teclado.nextLine());
         }
 
         String sqlSelect = "SELECT * FROM usuario WHERE nome LIKE '" + nome + "%';";
@@ -220,11 +220,11 @@ public class UsuarioDAO implements UsuarioInterface {
     public void update() {
 
         System.out.print("Qual registro(id) voce deseja atualizar: ");
-        int id = Integer.parseInt(teclado.next());
+        int id = Integer.parseInt(teclado.nextLine());
 
         while(idNotExists(id)) {
             System.out.print("Registro inexistente\nQual registro(id) voce deseja atualizar: ");
-            id = Integer.parseInt(teclado.next());
+            id = Integer.parseInt(teclado.nextLine());
         }
 
         System.out.print("Qual o novo nome: ");
