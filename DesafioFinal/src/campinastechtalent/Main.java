@@ -38,7 +38,7 @@ public class Main {
            }
            opcaoEscolhida = escolhaMenu();
        }
-        System.out.println("Obrigado por utilizar nossos serviços.");
+        System.out.println("Volte sempre!");
         teclado.nextLine();
     }
 

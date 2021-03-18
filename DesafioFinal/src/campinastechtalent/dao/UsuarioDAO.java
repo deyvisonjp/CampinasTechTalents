@@ -36,15 +36,15 @@ public class UsuarioDAO implements UsuarioInterface {
             usuario.setNome(teclado.nextLine());
 
             System.out.print("Qual o novo e-mail: ");
-            usuario.setEmail(teclado.next());
+            usuario.setEmail(teclado.nextLine());
 
             while (usuario.getEmail().indexOf ("@") < 1) {
                 System.out.print("E-mail inválido!\nEntre com um e-mail válido: ");
-                usuario.setEmail(teclado.next());
+                usuario.setEmail(teclado.nextLine());
             }
 
             System.out.print("Crie uma senha: ");
-            usuario.setSenha(teclado.next());
+            usuario.setSenha(teclado.nextLine());
 
             Calendar calendar = Calendar.getInstance();
             java.sql.Date getData = new java.sql.Date(calendar.getTime().getTime());
@@ -60,7 +60,6 @@ public class UsuarioDAO implements UsuarioInterface {
             } else {
                 System.out.println("Atenção . . . Este e-mail já esta cadastrado!");
             }
-
 
         } catch (Exception e) {
             e.printStackTrace();

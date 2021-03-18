@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class ConnectionFactory {
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "suasenhaaqui";
+    private static final String PASSWORD = "d2j6p8s1";
     private static final String DATABASE_URL = "jdbc:mysql://localhost/ctt_desafio_final";
 
     public static Connection createConnectionToMySQL() throws ClassNotFoundException, SQLException {
